@@ -1,14 +1,9 @@
 import discord
 import os
-import requests
 from discord.ext import commands
 from random import choice
 
-#client = discord.Client()
-
 my_secret = os.environ['BOT_KEY'] #here goes you r own bot token
-api_key = os.environ['GMAP_API']  #here goes your own gmap api code
-url = 'https://maps.googleapis.com/maps/api/streetview?size=600x400'
 
 bot=commands.Bot(command_prefix='>')
 
@@ -16,7 +11,14 @@ bot=commands.Bot(command_prefix='>')
 async def on_ready():
     print(f'{bot.user} is online.')
 
-
+@bot.event
+async def on_command_error(ctx, error):
+  if isinstance(error, commands.CommandOnCooldown):
+    control = ['Asking again wont change {x} bad luck 😂',
+    'Wait a minute {x}, you will be roasted again 🔥🔥',
+    'abhi cooldown hai, Jal lijiye {x}, thak gye honge 💧']
+    roast = (choice(control)).format(x = ctx.message.author.mention)
+    await ctx.send(roast)
 
 @bot.command(name='hey',help='gives random rick roll Hi!')
 async def rick_roll(ctx):
@@ -24,11 +26,6 @@ async def rick_roll(ctx):
     response='Hi! '+ choice(rick_rolls)
     await ctx.send(response)
 
-@bot.command(name='find',help='Helps find places')
-async def find(ctx, x: str):
-    y = x.replace(' ', '+')
-    r = requests.get(url + "location=" + y + "&key=" + api_key)
-    await ctx.send(r.text)
 
 @bot.command(name='baseball', help='Plays a game of base ball. Bot selects a random number \{ 1,2,3\}')
 async def bb(ctx):
@@ -52,21 +49,14 @@ async def bb(ctx):
     
     await ctx.send(f'Good Game! {ctx.author.mention} Your score was {score}')
 
-'''@client.event
-async def on_message(mssg):
-    if mssg.author == client.user:
-        return
+@bot.command(name='luck', help="Checks how lucky you are")
+@commands.cooldown(1, 60, commands.BucketType.user)
+async def luck(ctx):
+    lst = ['|| You are a piece of shit {x} 🤢 ||', '|| Why {x} is testing their bad luck😂. ||',
+    '|| {x}\'s luck = 💯. ||',
+    '|| Hey! loser {x} 🤣 ||']
 
-    if mssg.content.startswith('>hey'):
-        await mssg.channel.send('Hey! looser')
+    y = (choice(lst)).format(x=ctx.message.author.mention)
+    await ctx.send(y)
 
-    x = mssg.content.replace('>find ', '')
-    y = x.replace(' ', '+')
-    def findIt():
-        r = requests.get(url + "location=" + y + "&key=" + api_key)
-        print(r.text)
-         
-
-    if mssg.content.startswith(('>find {0}').format(x)):
-        return findIt()'''
 bot.run(my_secret)
