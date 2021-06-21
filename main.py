@@ -4,8 +4,6 @@ import requests
 from discord.ext import commands
 from random import choice
 
-#client = discord.Client()
-
 my_secret = os.environ['BOT_KEY'] #here goes you r own bot token
 api_key = os.environ['GMAP_API']  #here goes your own gmap api code
 url = 'https://maps.googleapis.com/maps/api/streetview?size=600x400'
@@ -52,21 +50,4 @@ async def bb(ctx):
     
     await ctx.send(f'Good Game! {ctx.author.mention} Your score was {score}')
 
-'''@client.event
-async def on_message(mssg):
-    if mssg.author == client.user:
-        return
-
-    if mssg.content.startswith('>hey'):
-        await mssg.channel.send('Hey! looser')
-
-    x = mssg.content.replace('>find ', '')
-    y = x.replace(' ', '+')
-    def findIt():
-        r = requests.get(url + "location=" + y + "&key=" + api_key)
-        print(r.text)
-         
-
-    if mssg.content.startswith(('>find {0}').format(x)):
-        return findIt()'''
 bot.run(my_secret)
