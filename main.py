@@ -1,6 +1,5 @@
 import discord
 import os
-import requests
 from discord.ext import commands
 from random import choice
 
@@ -53,11 +52,11 @@ async def bb(ctx):
 @bot.command(name='luck', help="Checks how lucky you are")
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def luck(ctx):
-  lst = ['|| You are a piece of shit {x} 🤢 ||', '|| Why {x} is testing their bad luck😂. ||',
+    lst = ['|| You are a piece of shit {x} 🤢 ||', '|| Why {x} is testing their bad luck😂. ||',
     '|| {x}\'s luck = 💯. ||',
     '|| Hey! loser {x} 🤣 ||']
-    
-  y = (choice(lst)).format(x=ctx.message.author.mention)
-  await ctx.send(y)
+
+    y = (choice(lst)).format(x=ctx.message.author.mention)
+    await ctx.send(y)
 
 bot.run(my_secret)
