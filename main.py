@@ -49,6 +49,25 @@ async def bb(ctx):
     
     await ctx.send(f'Good Game! {ctx.author.mention} Your score was {score}')
 
+@bot.command(name='rps', help='play RPS with me! (I no cheat.)')
+async def rps(ctx,arg:str):
+    valid_commands=['ROCK','PAPER','SCISSOR','R','P','S']
+    arg=arg.capitalize()
+    if arg not in valid_commands:
+        await ctx.send(f'{ctx.author.mention} incorrect choice, I win!')
+    else:
+        computer=choice([0,1,2])
+        user=valid_commands.index(arg)%3
+        await ctx.send(f'{ctx.author.mention} {valid_commands[computer]}')
+        # 0-R, 1-P, 3-S
+        if user==computer:
+            await ctx.send(f'{ctx.author.mention} It\'s a draw!')
+        elif (user,computer) in [(0,2),(1,0),(2,1)]:
+            await ctx.send(f'{ctx.author.mention} You win this time')
+        else:
+            await ctx.send(f'{ctx.author.mention} You are a looser!')
+        
+
 @bot.command(name='luck', help="Checks how lucky you are")
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def luck(ctx):
