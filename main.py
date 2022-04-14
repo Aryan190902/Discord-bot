@@ -3,7 +3,7 @@ import os
 from discord.ext import commands
 from random import choice
 
-my_secret = os.environ['BOT_KEY'] #here goes you r own bot token
+my_secret = os.environ['BOT_KEY'] #here goes your own bot token
 
 bot=commands.Bot(command_prefix='>')
 
